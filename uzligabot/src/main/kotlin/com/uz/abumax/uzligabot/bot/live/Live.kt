@@ -32,8 +32,10 @@ class Live {
                     add(KeyboardButton("A +"))
                     add(KeyboardButton("B +"))
                 },
+
                 KeyboardRow().apply {
-                    add(KeyboardButton("Asosiy menu"))
+                    add(KeyboardButton("Start"))
+                    add(KeyboardButton("Finish game"))
                 }
             )
             keyboard.resizeKeyboard = true

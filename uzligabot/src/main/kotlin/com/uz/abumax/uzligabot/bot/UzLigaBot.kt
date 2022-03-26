@@ -1,9 +1,10 @@
 package com.uz.abumax.uzligabot.bot
 
 import com.uz.abumax.uzligabot.bot.about.About
+import com.uz.abumax.uzligabot.bot.groups.GroupList
 import com.uz.abumax.uzligabot.bot.live.Live
 import com.uz.abumax.uzligabot.bot.main.MainMenu
-import com.uz.abumax.uzligabot.utils.CONSTANTS
+import com.uz.abumax.uzligabot.utils.*
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
@@ -17,17 +18,16 @@ import java.net.URL
 
 @Service
 class UzLigaBot : TelegramLongPollingBot() {
-    var countA = 0
-    var countB = 0
-    var isPermitted = false
+    var countA = ZERO
+    var countB = ZERO
+    var isPermitted = NO_PERMITTED
 
-    var clubA = ""
-    var clubB = ""
-    var startedGame = "o'yin boshlandi"
+    var clubA = EMPTY
+    var clubB = EMPTY
 
-    override fun getBotToken() = CONSTANTS.TOKEN
+    override fun getBotToken() = TOKEN
 
-    override fun getBotUsername() = "UzLigaBot"
+    override fun getBotUsername() = NAME
 
     override fun onUpdateReceived(update: Update) {
         println(update)
@@ -37,53 +37,68 @@ class UzLigaBot : TelegramLongPollingBot() {
             val chatId = message.chatId
             if (message.hasText()) {
                 val text = message.text
-                if (text == "/start") {
-                    startUzLigaBot(chatId, update)
-                } else if (text == "Asosiy menu") {
-                    startUzLigaBot(chatId, update)
-                } else if (text == "Live") {
+                if (text == START) {
+                    startUzLigaBot(chatId)
+                } else if (text == MAIN_MENU) {
+                    startUzLigaBot(chatId)
+                } else if (text == LIVE) {
                     val m = SendMessage()
                     m.chatId = chatId.toString()
-                    m.text = "Maxsus kodni kiriting:"
+                    m.text = SPECIAL_CODE
                     execute(m)
 
                 } else if (text == CONSTANTS.CODE) {
-                    isPermitted = true
+                    isPermitted = PERMITTED
                     val m = SendMessage()
                     m.chatId = chatId.toString()
-                    m.text = "Jamoalar nomini kiriting: (misol: /Aresnal/Chelsea)"
+                    m.text = WRITE_CLUB_NAMES
                     execute(m)
 
-                } else if (text == "Jamoalar ro'yxati") {
+                } else if (text == CLUB_LIST) {
                     val m = SendMessage()
                     m.chatId = chatId.toString()
                     m.text = CONSTANTS.CLUBS
                     execute(m)
-                } else if (text == "Taqvim") {
+                } else if (text == TOUR) {
                     val m = SendMessage()
                     m.chatId = chatId.toString()
-                    m.text = "Jamoalar ro'yhati shaklantirilmoqda"
+                    m.text = TOUR_ONE
                     execute(m)
-                } else if (text == "Start") {
+                } else if (text == GROUPS) {
+                    val m = GroupList().showButtons(chatId.toString())
+                    execute(m)
+                } else if (text == A) {
+                    val m = SendMessage()
+                    m.chatId = chatId.toString()
+                    m.text = GROUP_A
+                    execute(m)
+                } else if (text == B) {
+                    val m = SendMessage()
+                    m.chatId = chatId.toString()
+                    m.text = GROUP_B
+                    execute(m)
+                } else if (text == C) {
+                    val m = SendMessage()
+                    m.chatId = chatId.toString()
+                    m.text = GROUP_C
+                    execute(m)
+                } else if (text == D) {
+                    val m = SendMessage()
+                    m.chatId = chatId.toString()
+                    m.text = GROUP_D
+                    execute(m)
+                } else if (text == START_GAME) {
                     if (clubA.isEmpty() or clubB.isEmpty()) {
                         val m = SendMessage()
                         m.chatId = chatId.toString()
-                        m.text = "iltimos avval jamoalar nomini kiriting!"
+                        m.text = PLEASE_WRITE_CLUB_NAMES
                         execute(m)
-                        startUzLigaBot(chatId, update)
+                        startUzLigaBot(chatId)
                     } else {
-//                        val m = SendMessage()
-//                        m.chatId = chatId.toString()
-//                        m.text = "$clubA $countA : $countB $clubB \n $startedGame"
-//                        execute(m)
 
-                        var urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
+                        var urlString = BOT_URL
 
-                        val apiToken = CONSTANTS.TOKEN
-                        val chatId = CONSTANTS.CHANNEL_ID
-                        val text = "$clubA vs $clubB Boshlandi"
-
-                        urlString = String.format(urlString, apiToken, chatId, text)
+                        urlString = String.format(urlString, TOKEN, CONSTANTS.CHANNEL_ID, "$clubA $VS $clubB $STARTED")
 
                         val url = URL(urlString)
                         val conn = url.openConnection()
@@ -96,19 +111,20 @@ class UzLigaBot : TelegramLongPollingBot() {
                         println(response)
 
                     }
-                } else if (text == "Biz haqimizda") {
+                } else if (text == ABOUT_US) {
 
                     val aboutStart = About(chatId, update).aboutButtons()
                     execute(aboutStart)
-                } else if (text == "Finish game") {
-                    startUzLigaBot(chatId, update)
-                    var urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
+                } else if (text == FINISH_GAME) {
+                    startUzLigaBot(chatId)
+                    var urlString = BOT_URL
 
-                    val apiToken = CONSTANTS.TOKEN
-                    val chatId = CONSTANTS.CHANNEL_ID
-                    val text = "O'yin tugadi hisob $clubA $countA : $countB $clubB"
-
-                    urlString = String.format(urlString, apiToken, chatId, text)
+                    urlString = String.format(
+                        urlString,
+                        TOKEN,
+                        CONSTANTS.CHANNEL_ID,
+                        "$START_GAME_MESSAGE $clubA $countA : $countB $clubB"
+                    )
 
                     val url = URL(urlString)
                     val conn = url.openConnection()
@@ -120,36 +136,33 @@ class UzLigaBot : TelegramLongPollingBot() {
 
                     println(response)
 
-                    clubA = ""
-                    clubB = ""
-                    countA = 0
-                    countB = 0
+                    clubA = EMPTY
+                    clubB = EMPTY
+                    countA = ZERO
+                    countB = ZERO
 
 
-                } else if (text.length > 7 && text.startsWith("/") && isPermitted) {
-                    val split = text.replace(" ", "").split("/")
+                } else if (text.length > 7 && text.startsWith(SLASH) && isPermitted) {
+                    val split = text.replace(" ", EMPTY).split(SLASH)
                     println("split1 $split")
                     clubA = split[1]
                     clubB = split[2]
 
                     val live = Live().startGame(chatId.toString(), update)
                     execute(live)
-                } else if (text == "A +") {
+                } else if (text == A_GOAL) {
                     if (clubA.isEmpty() or clubB.isEmpty()) {
                         val m = SendMessage()
                         m.chatId = chatId.toString()
-                        m.text = "iltimos avval jamoa nomini kiriting!"
+                        m.text = PLEASE_WRITE_CLUB_NAMES
                         execute(m)
-                        startUzLigaBot(chatId, update)
+                        startUzLigaBot(chatId)
                     } else {
-                        var urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
+                        var urlString = BOT_URL
                         countA++
 
-                        val apiToken = CONSTANTS.TOKEN
-                        val chatId = CONSTANTS.CHANNEL_ID
-                        val text = "$clubA  $countA : $countB $clubB"
-
-                        urlString = String.format(urlString, apiToken, chatId, text)
+                        urlString =
+                            String.format(urlString, TOKEN, CONSTANTS.CHANNEL_ID, "$clubA  $countA : $countB $clubB")
 
                         val url = URL(urlString)
                         val conn = url.openConnection()
@@ -161,21 +174,19 @@ class UzLigaBot : TelegramLongPollingBot() {
 
                         println(response)
                     }
-                } else if (text == "B +") {
+                } else if (text == B_GOAL) {
                     if (clubA.isEmpty() or clubB.isEmpty()) {
                         val m = SendMessage()
                         m.chatId = chatId.toString()
-                        m.text = "iltimos avval jamoa nomini kiriting!"
-                        startUzLigaBot(chatId, update)
+                        m.text = PLEASE_WRITE_CLUB_NAMES
+                        startUzLigaBot(chatId)
                         execute(m)
                     } else {
-                        var urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
+                        var urlString = BOT_URL
                         countB++
-                        val apiToken = CONSTANTS.TOKEN
-                        val chatId = CONSTANTS.CHANNEL_ID
-                        val text = "$clubA  $countA : $countB $clubB"
 
-                        urlString = String.format(urlString, apiToken, chatId, text)
+                        urlString =
+                            String.format(urlString, TOKEN, CONSTANTS.CHANNEL_ID, "$clubA  $countA : $countB $clubB")
 
                         val url = URL(urlString)
                         val conn = url.openConnection()
@@ -190,7 +201,7 @@ class UzLigaBot : TelegramLongPollingBot() {
                 } else {
                     val m = SendMessage()
                     m.chatId = chatId.toString()
-                    m.text = "Mavjud bo'lmagan buyruq \n qaytadan urinib ko'ring"
+                    m.text = ERROR_MESSAGE
                     execute(m)
                 }
             }
@@ -209,8 +220,8 @@ class UzLigaBot : TelegramLongPollingBot() {
         }
     }
 
-    private fun startUzLigaBot(chatId: Long, update: Update) {
-        val menu = MainMenu().start(chatId.toString(), update)
+    private fun startUzLigaBot(chatId: Long) {
+        val menu = MainMenu().start(chatId.toString())
         execute(menu)
     }
 }

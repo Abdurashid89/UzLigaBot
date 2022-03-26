@@ -2,11 +2,14 @@ package com.uz.abumax.uzligabot.utils
 
 object CONSTANTS {
 
-    const val TOKEN = "5254095921:AAHmDpA4jXg7PN0X2hRBFSeRUrLELqKq1b4"
+    //   uzliga // const val TOKEN = "5254095921:AAHmDpA4jXg7PN0X2hRBFSeRUrLELqKq1b4"
+    const val TOKEN = "5126178672:AAGssdN6vFTYZp4X-SBKD8YfrLVffLr6Dt0" //MySmen
     const val BASE_URL = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
 
     const val CODE = "1331602"
-    const val CHANNEL_ID = "@hojaobod_hayriya"
+
+    //    const val CHANNEL_ID = "@hojaobod_hayriya"
+    const val CHANNEL_ID = "@uz_liga_channel"
 
     const val CLUBS = "1)4-ges zbor\n" +
             "2)Man yun \n" +

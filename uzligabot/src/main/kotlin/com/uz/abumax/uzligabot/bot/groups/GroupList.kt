@@ -1,4 +1,4 @@
-package com.uz.abumax.uzligabot.bot.main
+package com.uz.abumax.uzligabot.bot.groups
 
 import com.uz.abumax.uzligabot.utils.*
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
@@ -6,23 +6,21 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow
 
-class MainMenu {
+class GroupList {
 
-    fun start(chatId: String): SendMessage {
+    fun showButtons(chatId: String): SendMessage {
         val message = SendMessage()
         message.chatId = chatId
-        message.text = MAIN_MENU
+        message.text = GROUPS
 
         val keyboard = ReplyKeyboardMarkup()
         keyboard.keyboard = listOf(
             KeyboardRow().apply {
-                add(KeyboardButton(CLUB_LIST))
-                add(KeyboardButton(TOUR))
-                add(KeyboardButton(GROUPS))
-            },
-            KeyboardRow().apply {
-                add(KeyboardButton(LIVE))
-                add(KeyboardButton(ABOUT_US))
+                add(KeyboardButton("A"))
+                add(KeyboardButton("B"))
+                add(KeyboardButton("C"))
+                add(KeyboardButton("D"))
+                add(KeyboardButton(MAIN_MENU))
             }
         )
         keyboard.resizeKeyboard = true
@@ -31,4 +29,5 @@ class MainMenu {
 
         return message
     }
+
 }

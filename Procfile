@@ -1,1 +1,1 @@
-web: build/install/kotlinserver/bin/kotlinserver
+web: build/install/abumax.uzligabot/bin/abumax.uzligabot

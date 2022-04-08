@@ -1,1 +1,1 @@
-build/install/abumax/bin/abumax
+worker: pyton main.py

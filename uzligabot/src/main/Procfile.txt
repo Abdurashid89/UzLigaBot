@@ -1,1 +1,0 @@
-web: build/install/abumax.uzligabot/bin/abumax.uzligabot

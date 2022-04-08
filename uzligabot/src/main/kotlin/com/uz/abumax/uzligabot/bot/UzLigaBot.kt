@@ -4,8 +4,15 @@ import com.uz.abumax.uzligabot.bot.about.About
 import com.uz.abumax.uzligabot.bot.groups.GroupList
 import com.uz.abumax.uzligabot.bot.live.Live
 import com.uz.abumax.uzligabot.bot.main.MainMenu
+import com.uz.abumax.uzligabot.entity.Club
+import com.uz.abumax.uzligabot.repository.ClubRepository
+import com.uz.abumax.uzligabot.repository.MyRepository
+import com.uz.abumax.uzligabot.service.ClubService
 import com.uz.abumax.uzligabot.utils.*
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -15,9 +22,13 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 
+@RestController
+@RequestMapping("/api")
+//@Service
+class UzLigaBot(var service: ClubService) : TelegramLongPollingBot() {
 
-@Service
-class UzLigaBot : TelegramLongPollingBot() {
+
+
     var countA = ZERO
     var countB = ZERO
     var isPermitted = NO_PERMITTED
@@ -31,7 +42,6 @@ class UzLigaBot : TelegramLongPollingBot() {
 
     override fun onUpdateReceived(update: Update) {
         println(update)
-
         if (update.hasMessage()) {
             val message = update.message
             val chatId = message.chatId
@@ -39,6 +49,7 @@ class UzLigaBot : TelegramLongPollingBot() {
                 val text = message.text
                 if (text == START) {
                     startUzLigaBot(chatId)
+                    service.add(Club(name = "Arsenal"))
                 } else if (text == MAIN_MENU) {
                     startUzLigaBot(chatId)
                 } else if (text == LIVE) {

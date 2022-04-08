@@ -1,1 +1,1 @@
-worker: pyton main.py
+web: gunicorn wblog.wsgi --log-file -

@@ -15,9 +15,11 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 
-
 @Service
 class UzLigaBot : TelegramLongPollingBot() {
+
+
+
     var countA = ZERO
     var countB = ZERO
     var isPermitted = NO_PERMITTED
@@ -31,7 +33,6 @@ class UzLigaBot : TelegramLongPollingBot() {
 
     override fun onUpdateReceived(update: Update) {
         println(update)
-
         if (update.hasMessage()) {
             val message = update.message
             val chatId = message.chatId

@@ -1,11 +1,13 @@
 package com.uz.abumax.uzligabot.utils
 
-const val NAME = "UzLigaBot"
+//const val NAME = "UzLigaBot"
+const val NAME = "MySmen"
 const val BOT_URL = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
 const val START_GAME_MESSAGE = "O'yin tugadi hisob "
 
-//const val TOKEN = "5126178672:AAGssdN6vFTYZp4X-SBKD8YfrLVffLr6Dt0" //MySmen
-const val TOKEN = "5254095921:AAHmDpA4jXg7PN0X2hRBFSeRUrLELqKq1b4" //UzLiga
+const val TOKEN = "5126178672:AAGssdN6vFTYZp4X-SBKD8YfrLVffLr6Dt0" //MySmen
+
+//const val TOKEN = "5254095921:AAHmDpA4jXg7PN0X2hRBFSeRUrLELqKq1b4" //UzLiga
 const val START = "/start"
 const val MAIN_MENU = "Asosiy menu"
 const val SPECIAL_CODE = "Maxsus kodni kiriting:"

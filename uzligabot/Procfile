@@ -1,1 +1,1 @@
-web: build/install/UzLigaBot/bin/UzLigaBot
+ web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.war
